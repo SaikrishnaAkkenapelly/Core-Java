@@ -29,38 +29,47 @@ public class Cricketer {
 		this.matchesPlayed = matchesPlayed;
 	}
 
+	// equal method of object class should be overridden to compare objects
 	@Override
 	public boolean equals(Object obj)
 	{
 		if(!(obj instanceof Cricketer))
 			throw new IllegalArgumentException("Can not compare these two objects..");
 		
-		int points = 0 ;
-		boolean areEqual = false;
 		Cricketer cricketer = (Cricketer) obj;
-		points = ( cricketer.batAvg > this.batAvg ) ? ++points : ( cricketer.batAvg == this.batAvg ? points : --points );
-		points = ( cricketer.bowAvg < this.bowAvg ) ? ++points : ( cricketer.bowAvg == this.bowAvg ? points : --points );
-		points = ( cricketer.matchesPlayed > this.matchesPlayed ) ? ++points : ( cricketer.matchesPlayed == this.matchesPlayed ? points : --points );
-		
-		if(points > 0)
-		{
-			System.out.println(cricketer.getName() + " is better cricketer than " + this.getName());
-		}
-		else if(points < 0)
-		{
-			System.out.println(this.getName() + " is better cricketer than " + cricketer.getName());
-		}
-		else if(points == 0)
-		{
-			System.out.println(this.getName() + " is same as cricketer " + cricketer.getName());
-			areEqual = true;
-		}
-		
-		return areEqual;
+		int comparitiveScore = this.getComparitiveScore(cricketer);
+		if(comparitiveScore == 0)
+			return true;
+			
+		return false;
 	}
 
 	public String getName()
 	{
 		return name;
+	}
+	
+	// compares 2 cricketer objects and returns better cricketer of them
+	public Cricketer compareWith(Cricketer cricketer)
+	{
+		int comparitiveScore = this.getComparitiveScore(cricketer);
+
+		if(comparitiveScore > 0)
+		{
+			return cricketer;
+		}
+		else
+		{
+			return this;
+		}
+	}
+	
+	private int getComparitiveScore(Cricketer cricketer)
+	{
+		int comparitiveScore = 0 ;
+		comparitiveScore = ( cricketer.batAvg > this.batAvg ) ? ++comparitiveScore : ( cricketer.batAvg == this.batAvg ? comparitiveScore : --comparitiveScore );
+		comparitiveScore = ( cricketer.bowAvg < this.bowAvg ) ? ++comparitiveScore : ( cricketer.bowAvg == this.bowAvg ? comparitiveScore : --comparitiveScore );
+		comparitiveScore = ( cricketer.matchesPlayed > this.matchesPlayed ) ? ++comparitiveScore : ( cricketer.matchesPlayed == this.matchesPlayed ? comparitiveScore : --comparitiveScore );
+		return comparitiveScore;
 	}
 }
